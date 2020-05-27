@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import Doctor from '../schemas/Doctor';
+import Doctor from '../models/Doctor';
 import AppError from '../../errors/AppError';
 
 class DoctorController {

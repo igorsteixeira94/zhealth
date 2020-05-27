@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
-import Prescription from '../schemas/Prescription';
-import Patient from '../schemas/Patient';
+import Prescription from '../models/Prescription';
+import Patient from '../models/Patient';
 import AppError from '../../errors/AppError';
 
 class PrescriptionController {

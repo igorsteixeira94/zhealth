@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import jwt from 'jsonwebtoken';
-import Doctor from '../schemas/Doctor';
+import Doctor from '../models/Doctor';
 
 class SessionController {
   async index(req, res, next) {
