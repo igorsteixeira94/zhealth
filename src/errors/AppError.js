@@ -1,5 +1,5 @@
 class Error {
-  constructor(message, status = 400) {
+  constructor(message = 'error', status = 400) {
     this.message = message;
     this.status = status;
   }

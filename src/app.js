@@ -1,22 +1,24 @@
 import express from 'express';
-import routes from './routes';
+import 'express-async-errors';
+import routes from './routes/routes';
 import 'dotenv/config';
+import './database';
 
 class App {
   constructor() {
-    this.express = express();
+    this.server = express();
 
     this.middleware();
     this.routes();
   }
 
   middleware() {
-    this.express.use(express.json());
+    this.server.use(express.json());
   }
 
   routes() {
-    this.express.use(routes);
+    this.server.use(routes);
   }
 }
 
-export default new App().express;
+export default new App().server;
