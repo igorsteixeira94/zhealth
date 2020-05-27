@@ -1,7 +1,10 @@
 import AppError from '../../errors/AppError';
 
 export default async (error, req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.NODE_ENV === 'test'
+  ) {
     if (error instanceof AppError)
       return res
         .status(error.status)

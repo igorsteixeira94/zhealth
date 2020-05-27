@@ -4,7 +4,6 @@ import Patient from '../models/Patient';
 import AppError from '../../errors/AppError';
 
 class PrescriptionController {
-  // Finalizado
   async store(request, response, next) {
     try {
       const schema = Yup.object().shape({
@@ -43,7 +42,6 @@ class PrescriptionController {
     }
   }
 
-  // Finalizado
   async index(request, response, next) {
     try {
       const { doctorId } = request;
@@ -59,8 +57,7 @@ class PrescriptionController {
         .populate('doctor')
         .populate('patient');
 
-      if (!prescriptions)
-        throw new AppError('Nenhum resultado encontrado', 400);
+      if (!prescriptions) throw new AppError('Nenhum resultado encontrado');
 
       return response.json(prescriptions);
     } catch (error) {
@@ -68,7 +65,6 @@ class PrescriptionController {
     }
   }
 
-  // Finalizado
   async show(request, response, next) {
     try {
       const {
@@ -83,14 +79,13 @@ class PrescriptionController {
         .populate('doctor')
         .populate('patient');
 
-      if (!prescription) throw new AppError('Nenhum resultado encontrado', 400);
+      if (!prescription) throw new AppError('Nenhum resultado encontrado');
       return response.json(prescription);
     } catch (error) {
       return next(error);
     }
   }
 
-  // Finalizado
   async delete(request, response, next) {
     try {
       const {
@@ -110,7 +105,6 @@ class PrescriptionController {
     }
   }
 
-  // Finalizado
   async update(request, response, next) {
     try {
       const {

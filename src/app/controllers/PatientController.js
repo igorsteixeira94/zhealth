@@ -3,7 +3,6 @@ import Patient from '../models/Patient';
 import AppError from '../../errors/AppError';
 
 class PatientController {
-  // Finalizado
   async store(request, response, next) {
     try {
       const schema = Yup.object().shape({
@@ -13,13 +12,13 @@ class PatientController {
       });
 
       if (!(await schema.isValid(request.body)))
-        throw new AppError('Dados invalidos', 400);
+        throw new AppError('Dados invalidos');
 
       const { cpf, name, dateBirth } = request.body;
 
       const patientExist = await Patient.findOne({ cpf });
 
-      if (patientExist) throw new AppError('Paciente já possui cadastro', 400);
+      if (patientExist) throw new AppError('Paciente já possui cadastro');
 
       const patient = await Patient.create({
         cpf,
@@ -33,7 +32,6 @@ class PatientController {
     }
   }
 
-  // Finalizado
   async index(request, response, next) {
     try {
       const limitForPage = 10;
@@ -50,7 +48,6 @@ class PatientController {
     }
   }
 
-  // Finalizado
   async show(request, response, next) {
     try {
       const { id } = request.params;
@@ -68,14 +65,13 @@ class PatientController {
     }
   }
 
-  // Finalizado
   async delete(request, response, next) {
     try {
       const { id } = request.params;
       const { deletedCount } = await Patient.remove({ _id: id });
 
       if (!deletedCount)
-        throw new AppError('Não existe registro para ser deletado', 400);
+        throw new AppError('Não existe registro para ser deletado');
 
       return response.json('Registro deletado');
     } catch (error) {
@@ -83,7 +79,6 @@ class PatientController {
     }
   }
 
-  // Finalizado
   async update(request, response, next) {
     try {
       const { id } = request.params;
@@ -92,7 +87,7 @@ class PatientController {
         new: true,
       });
 
-      if (!patient) throw new AppError('Paciente não encontrado', 400);
+      if (!patient) throw new AppError('Paciente não encontrado');
 
       return response.json(patient);
     } catch (error) {

@@ -3,7 +3,6 @@ import Doctor from '../models/Doctor';
 import AppError from '../../errors/AppError';
 
 class DoctorController {
-  // Finalizado
   async store(request, response, next) {
     try {
       const {
@@ -32,14 +31,14 @@ class DoctorController {
       });
 
       if (!(await schema.isValid(request.body)))
-        throw new AppError('Dados invalidos', 400);
+        throw new AppError('Dados invalidos');
 
       const doctorExist = await Doctor.findOne({ cpf });
-      if (doctorExist) throw new AppError('Médico já possui cadastro', 400);
+      if (doctorExist) throw new AppError('Médico já possui cadastro');
 
       const emailExist = await Doctor.findOne({ email });
-      if (emailExist)
-        throw new AppError('Este email já pertence a um médico', 400);
+
+      if (emailExist) throw new AppError('Este email já pertence a um médico');
 
       const doctor = await Doctor.create({
         cpf,
@@ -59,7 +58,6 @@ class DoctorController {
     }
   }
 
-  // Finalizado
   async index(request, response, next) {
     try {
       const { page = 1 } = request.query;
@@ -70,16 +68,12 @@ class DoctorController {
         .skip((page - 1) * limitForPage)
         .limit(limitForPage);
 
-      if (!doctor.length)
-        throw new AppError('Não existem médicos cadastrados', 400);
-
       return response.json(doctor);
     } catch (error) {
       return next(error);
     }
   }
 
-  // Finalizado
   async show(request, response, next) {
     try {
       const { id } = request.params;
@@ -97,14 +91,13 @@ class DoctorController {
     }
   }
 
-  // Finalizado
   async delete(request, response, next) {
     try {
       const { id } = request.params;
       const { deletedCount } = await Doctor.remove({ _id: id });
 
       if (!deletedCount)
-        throw new AppError('Não existe registro para ser deletado', 400);
+        throw new AppError('Não existe registro para ser deletado');
 
       return response.json('Registro deletado');
     } catch (error) {
@@ -112,7 +105,6 @@ class DoctorController {
     }
   }
 
-  // Finalizado
   async update(request, response, next) {
     try {
       // Valido apenas qd trocar a senha, já que os outros dados são opcionais
@@ -131,13 +123,13 @@ class DoctorController {
       });
 
       if (!(await schema.isValid(request.body)))
-        throw new AppError('Dados invalidos', 400);
+        throw new AppError('Dados invalidos');
 
       const { id } = request.params;
 
       const doctorExist = await Doctor.findById(id).select('+password');
 
-      if (!doctorExist) throw new AppError('Médico não existe', 400);
+      if (!doctorExist) throw new AppError('Médico não existe');
 
       const { old_password, password } = request.body;
 
@@ -153,7 +145,7 @@ class DoctorController {
         new: true,
       });
 
-      if (!doctor) throw new AppError('Médico não encontrado', 400);
+      if (!doctor) throw new AppError('Médico não encontrado');
 
       return response.json(doctor);
     } catch (error) {

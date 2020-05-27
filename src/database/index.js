@@ -6,11 +6,19 @@ class Database {
   }
 
   mongo() {
-    this.connection = mongoose.connect(process.env.MONGO_DB, {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-    });
+    if (process.env.NODE_ENV === 'test') {
+      this.connection = mongoose.connect(process.env.MONGO_DB_TEST, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+      });
+    } else {
+      this.connection = mongoose.connect(process.env.MONGO_DB, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+      });
+    }
   }
 }
 
