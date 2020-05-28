@@ -47,10 +47,16 @@ yarn dev:server
 
 ## 📊️ Teste
 
-Principais features do desafio: 
+Principais features do desafio:
 
 - [x] Cadastrar de médico; (POST /doctors)
 - [x] Autenticação do médico; (POST /sessions)
 - [x] Cadastro de prescição médica; (POST /prescriptions)
 - [x] Listagem de prescrições médicas emitidas por um médico. *um prescrição não pode ser vista por um médico que não a cadastrou* (GET /prescriptions)
 
+<img src="https://user-images.githubusercontent.com/47749249/83084570-b8bdb880-a05f-11ea-9f9d-9fc7713bf99a.png" height="400" width="400"/>   <img src="https://user-images.githubusercontent.com/47749249/83084948-da6b6f80-a060-11ea-89e6-345dfa7197d1.png" height="400" width="400"/>
+
+*Para rodar os testes, execute:*
+```
+yarn coverage
+```
