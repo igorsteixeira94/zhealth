@@ -49,7 +49,7 @@ yarn dev:server
 
 Principais features do desafio:
 
-- [x] Cadastrar de médico; (POST /doctors)
+- [x] Cadastrar médico; (POST /doctors)
 - [x] Autenticação do médico; (POST /sessions)
 - [x] Cadastro de prescição médica; (POST /prescriptions)
 - [x] Listagem de prescrições médicas emitidas por um médico. *um prescrição não pode ser vista por um médico que não a cadastrou* (GET /prescriptions)
