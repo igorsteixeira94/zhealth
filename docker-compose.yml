@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    command: yarn dev:server
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    container_name: zhealth_api
+    depends_on:
+      - db
+    links:
+      - db
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+
