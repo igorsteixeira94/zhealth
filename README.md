@@ -4,7 +4,7 @@ Api para cadastro de prescrições médicas ! Possui rodas para o CRUD de médic
 
 
 
-## 🚀️ Tecnologias 
+## 🚀️ Tecnologias
 
 - Nodejs;
 - Express;
@@ -41,6 +41,12 @@ Por fim, para rodar a aplicação basta executar:
 
 ```
 yarn dev:server
+```
+### 🐋️ Usando Docker-Compose:
+
+Basta executar o comando:
+```
+docker-compose up
 ```
 
 
