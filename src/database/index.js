@@ -11,6 +11,7 @@ class Database {
         useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: true,
+        useFindAndModify: false
       });
     } else {
       this.connection = mongoose.connect(process.env.MONGO_DB, {

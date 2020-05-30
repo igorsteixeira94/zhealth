@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import Prescription from '../models/Prescription';
 import Patient from '../models/Patient';
 import AppError from '../../errors/AppError';
+import Doctor from '../models/Doctor';
 
 class PrescriptionController {
   async store(request, response, next) {
@@ -45,10 +46,14 @@ class PrescriptionController {
   async index(request, response, next) {
     try {
       const { doctorId } = request;
-
       const { page = 1 } = request.query;
       const limitForPage = 10;
 
+      const doctorExists = await Doctor.findById(doctorId);
+
+      if(!doctorExists){
+        throw new AppError("Médico não existe");
+      }
       const prescriptions = await Prescription.find({
         doctor: doctorId,
       })
@@ -93,7 +98,13 @@ class PrescriptionController {
         params: { id },
       } = request;
 
-      const { deletedCount } = await Prescription.remove({
+      const {doctor} = await Prescription.findById(id);
+
+      if(doctor!=doctorId){
+        throw new AppError('Permissão negada',401)
+      }
+
+      const { deletedCount } = await Prescription.deleteOne({
         _id: id,
         doctor: doctorId,
       });

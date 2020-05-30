@@ -3,6 +3,7 @@ import chaiHttp from 'chai-http';
 import server from '../../src/app';
 import Patient from '../../src/app/models/Patient';
 import Doctor from '../../src/app/models/Doctor';
+import Prescription from '../../src/app/models/Prescription';
 
 chai.use(chaiHttp);
 
@@ -28,6 +29,7 @@ const prescription = {
 };
 
 let token;
+let tokenDoctor2
 
 describe('Prescription', () => {
   before(async () => {
@@ -82,7 +84,7 @@ describe('Prescription', () => {
         email: 'doctor2@gmail.com',
         password: 'doctor2',
       });
-      const tokenDoctor2 = body.token;
+      tokenDoctor2 = body.token;
 
       const response = await chai
         .request(server)
@@ -94,4 +96,109 @@ describe('Prescription', () => {
       expect(response.body.length).to.equals(0);
     });
   });
+
+  describe('Show', () => {
+    it('it should show the doctor prescription', async () => {
+      const [{_id},...res] = await Prescription.find();
+      const response = await chai
+        .request(server)
+        .get(`/prescriptions/${_id}`)
+        .set('Authorization', `Bearer ${token}`);
+      expect(response).to.have.status(200);
+    });
+
+    it('it should not show other doctor prescription', async () => {
+
+      const { body } = await chai.request(server).post('/sessions').send({
+        email: 'doctor2@gmail.com',
+        password: 'doctor2',
+      });
+      const tokenDoctor2 = body.token;
+
+      const [{_id},...res] = await Prescription.find();
+
+      const response = await chai
+        .request(server)
+        .get(`/prescriptions/${_id}`)
+        .set('Authorization', `Bearer ${tokenDoctor2}`);
+
+      expect(response).to.have.status(400);
+    });
+  });
+
+  describe('Update', () => {
+
+    it('it should update the doctor prescriptions', async () => {
+      const [{ _id }, ...rest] = await Prescription.find()
+      const response = await chai
+        .request(server)
+        .put(`/prescriptions/${_id}`)
+        .send({
+          remedy: [
+            {
+              name: 'Alcool em gel',
+              description: 'Limpeza',
+              qtd: '12',
+              dosage: '5ml',
+              frequency: '7 dias',
+            }
+          ]
+        })
+        .set('Authorization', `Bearer ${token}`);
+      expect(response).to.have.status(200);
+      expect(response.body.remedy).to.be.an('array');
+      expect(response.body.remedy.length).to.equals(1);
+      expect(response.body.remedy[0].name).to.equal('Alcool em gel')
+    });
+
+
+    it('it should not update the other doctor prescriptions', async () => {
+      const [{ _id }, ...rest] = await Prescription.find()
+      const response = await chai
+        .request(server)
+        .put(`/prescriptions/${_id}`)
+        .send({
+          remedy: [
+            {
+              name: 'Alcool em gel',
+              description: 'Limpeza',
+              qtd: '12',
+              dosage: '5ml',
+              frequency: '7 dias',
+            }
+          ]
+        })
+        .set('Authorization', `Bearer tokenInvalid`);
+      expect(response).to.have.status(401);
+    });
+  });
+
+
+  describe('Delete', () => {
+
+    it('it should delete the doctor prescription', async () => {
+      const [{ _id }, ...rest] = await Prescription.find()
+      const response = await chai
+        .request(server)
+        .delete(`/prescriptions/${_id}`)
+        .set('Authorization', `Bearer ${token}`);
+      expect(response).to.have.status(200);
+    });
+
+    it('it should not delete the outhers doctor prescription', async () => {
+      const res = await chai
+      .request(server)
+      .post('/prescriptions')
+      .set('Authorization', `Bearer ${token}`)
+      .send(prescription);
+
+      const response = await chai
+        .request(server)
+        .delete(`/prescriptions/${res.body._id}`)
+        .set('Authorization', `Bearer ${tokenDoctor2}`);
+      expect(response).to.have.status(401);
+
+    });
+  });
+
 });

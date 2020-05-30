@@ -81,9 +81,7 @@ class DoctorController {
 
       if (!doctor)
         throw new AppError(
-          'Não existe médico cadastrado com as informações informadas',
-          400
-        );
+          'Não existe médico cadastrado com as informações informadas');
 
       return response.json(doctor);
     } catch (error) {
@@ -110,13 +108,11 @@ class DoctorController {
       // Valido apenas qd trocar a senha, já que os outros dados são opcionais
       const schema = Yup.object().shape({
         old_password: Yup.string().min(6),
-        password: Yup.string()
-          .min(6)
+        password: Yup.string().min(6)
           .when('old_password', (old_password, field) =>
             old_password ? field.required() : field
           ),
         confirm_password: Yup.string()
-          .min(6)
           .when('password', (password, field) =>
             password ? field.required().oneOf([Yup.ref('password')]) : field
           ),
@@ -134,10 +130,17 @@ class DoctorController {
       const { old_password, password } = request.body;
 
       if (old_password && !(await doctorExist.authPassword(old_password)))
+
         throw new AppError('Senha inválida !', 401);
 
-      doctorExist.password = password;
-      doctorExist.save();
+      if(old_password){
+        doctorExist.password = password;
+        doctorExist.save();
+      }
+
+
+
+
 
       delete request.body.password;
 

@@ -68,7 +68,7 @@ class PatientController {
   async delete(request, response, next) {
     try {
       const { id } = request.params;
-      const { deletedCount } = await Patient.remove({ _id: id });
+      const { deletedCount } = await Patient.deleteOne({ _id: id });
 
       if (!deletedCount)
         throw new AppError('Não existe registro para ser deletado');
@@ -83,7 +83,7 @@ class PatientController {
     try {
       const { id } = request.params;
 
-      const patient = await Patient.findByIdAndUpdate(id, request.body, {
+      const patient = await Patient.findOneAndUpdate({_id:id}, request.body, {
         new: true,
       });
 
