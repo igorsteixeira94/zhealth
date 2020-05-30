@@ -21,7 +21,7 @@ Api para cadastro de prescrições médicas ! Possui rodas para o CRUD de médic
 
 ## 👨‍💻️ Como Usar
 
-- [x] Para usar o código deste repositório, basta seguir os seguintes passos:
+- [x] Para usar o código (sem docker) deste repositório, basta seguir os seguintes passos:
 
 ```shell
 git clone git@github.com:igorsteixeira94/zhealth.git
@@ -31,7 +31,7 @@ yarn install
 
 - [x] Preencher o arquivo dotenv, com suas configurações. E instalar o banco de dados.
 
-- [x] Para instalar o MongoDB:
+- [x]Dica: Para instalar o MongoDB:
 
 ```
 docker run --name mongo-container -p 27017:27017 -d mongo
@@ -44,7 +44,7 @@ yarn dev:server
 ```
 ### 🐋️ Usando Docker-Compose:
 
-Basta executar o comando:
+Uma alternativa mais produtiva é a instalação através do orquestrador de containers do Docker ! Com um simples comando inicializamos api e banco de dados. :
 ```
 docker-compose up
 ```
@@ -60,7 +60,7 @@ Principais features do desafio:
 - [x] Cadastro de prescição médica; (POST /prescriptions)
 - [x] Listagem de prescrições médicas emitidas por um médico. *um prescrição não pode ser vista por um médico que não a cadastrou* (GET /prescriptions)
 
-<img src="https://user-images.githubusercontent.com/47749249/83084570-b8bdb880-a05f-11ea-9f9d-9fc7713bf99a.png" height="400" width="400"/>   <img src="https://user-images.githubusercontent.com/47749249/83084948-da6b6f80-a060-11ea-89e6-345dfa7197d1.png" height="400" width="400"/>
+<img src="https://user-images.githubusercontent.com/47749249/83317182-5b616d00-a201-11ea-8487-4de5c345cd35.png" height="500" width="500"/>
 
 *Para rodar os testes, execute:*
 ```
